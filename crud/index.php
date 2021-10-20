@@ -48,10 +48,27 @@
     <meta charset="UTF-8">
     <title> Cadastro </title>
     <link rel="stylesheet" type="text/css" href="style/style.css">
-
+    <script src="../js/jquery.js"></script>
+    <script>
+        $('#containerModal').css('display','none')
+        $(document).ready(function(){
+            $('.pesquisar').click(function(){
+                $('#containerModal').slideToggle(1000);
+            });
+            $('#fecharModal').click(function (){
+                $('#containerModal').fadeOut();
+            });
+        });
+    </script>
 </head>
 
 <body>
+    <div id="containerModal">
+        <span id="fecharModal">Fechar</span>
+        <div id="modal">
+
+        </div>
+    </div>
     <div id="cadastro">
         <div id="cadastroTitulo">
             <h1> Cadastro de Contatos </h1>
