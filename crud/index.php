@@ -48,12 +48,24 @@
     <meta charset="UTF-8">
     <title> Cadastro </title>
     <link rel="stylesheet" type="text/css" href="style/style.css">
-    <script src="../js/jquery.js"></script>
+    <script src="js/jquery.js"></script>
     <script>
-        $('#containerModal').css('display','none')
         $(document).ready(function(){
+        $('#containerModal').css('display','none');
+        // abre a modals 
             $('.pesquisar').click(function(){
                 $('#containerModal').slideToggle(1000);
+                // Recebe id do cliente 
+                let idCliente = $(this).data('id');
+                // Realiza uma requisição para consumir dados de outra pagina 
+                $.ajax({
+                    type:"GET",// Tipo de requisição (GET,POST,PUT, etc)
+                    url: "visualizarDados.php",//URL da pagina que será consumido
+                    data:{id:idCliente},
+                    success: function(dados){//Se a requisição der certo iremos receb o conteudo na vairavel dados
+                        $('#modal').html(dados);//exibi dentro da div modal
+                    }
+                });
             });
             $('#fecharModal').click(function (){
                 $('#containerModal').fadeOut();
@@ -191,7 +203,7 @@
                         <img src="img/trash.png" alt="Excluir" title="Excluir" class="excluir">
                     </a>
 
-                    <img src="img/search.png" alt="Visualizar" title="Visualizar" class="pesquisar">
+                    <img src="img/search.png" alt="Visualizar" title="Visualizar" class="pesquisar" data-id='<?=$rsClientes['idclient']?>'>
                 </td>
             </tr>
             <?php 
