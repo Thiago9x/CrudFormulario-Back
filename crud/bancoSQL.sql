@@ -17,3 +17,8 @@ create table tblcliente (
 
 select * from tblcliente;
 
+
+select tblcliente.*,tblEstado.sigla from tblcliente
+	inner join tblEstado
+		on tblEstado.idEstado = tblCliente.idEstado;
+

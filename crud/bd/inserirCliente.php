@@ -13,6 +13,7 @@ function inserir ($arrayCliente)
     $sql = "insert into tblcliente
                 (
                     nome,
+                    IdEstado,
                     rg,
                     cpf,
                     telefone,
@@ -23,6 +24,7 @@ function inserir ($arrayCliente)
                 values
                 (
                     '". $arrayCliente['nome'] ."',
+                    '". $arrayCliente[idEstado] ."',
                     '". $arrayCliente['rg'] ."',
                     '". $arrayCliente['cpf'] ."',
                     '". $arrayCliente['telefone'] ."',

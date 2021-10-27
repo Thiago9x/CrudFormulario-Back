@@ -21,8 +21,11 @@ function listar()
     return $select;
 }
 function buscar($idCliente){
-    $sql = "select * from tblcliente 
-    where idclient =". $idCliente;
+    $sql = "select tblcliente.*,tblEstado.sigla 
+        from tblcliente
+            inner join tblEstado
+            on tblEstado.idEstado = tblCliente.idEstado 
+        where idclient =". $idCliente;
 
     //abre a conexao com o bd
     $conexao = conexaoMysql();

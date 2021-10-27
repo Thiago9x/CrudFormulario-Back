@@ -20,6 +20,7 @@ $telefone = (string) null;
 $celular = (string) null;
 $email = (string) null;
 $obs = (string) null;
+$idEstado = (int) null;
 
 if(isset($_GET['id']))
 $id = (int) $_GET['id'];
@@ -36,6 +37,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
     $celular = $_POST['txtCelular'];
     $email = $_POST['txtEmail'];
     $obs = $_POST['txtObs'];
+    $idEstado = $_POST['sltEstado'];
     $id=(int) $_GET['id'];
     
     //Validação de campos obrigatórios
@@ -64,7 +66,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
             "celular"   => $celular,
             "email"     => $email,
             "obs"       => $obs,
-            "id"        =>$id
+            "id"        =>$id,
+            "idEstado"        =>$idEstado
         );
         // chama a função inserir do arquivo inserirCliente.php 
         if(strtoupper($_GET['modo'])== 'SALVAR')

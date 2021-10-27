@@ -10,6 +10,7 @@ function editar(array $cliente)
 {
     $sql = "update tblcliente set
                     nome =' ".$cliente['nome']."',
+                    idEstado =".$cliente[idEstado].",
                     rg = '". $cliente['rg'] ."',
                     cpf = '". $cliente['cpf'] ."',
                     telefone = '". $cliente['telefone'] ."',

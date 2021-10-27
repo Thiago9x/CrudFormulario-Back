@@ -3,12 +3,15 @@
 session_start();
 
     $nome = (string) null;
+
     $telefone = (string) null;
     $celular = (string) null;
     $rg = (string) null;
     $cpf = (string) null;
     $email = (string) null;
     $obs = (string) null;
+    $idEstado = (int) null;
+    $sigla = (string)"Selecione um item";
     $id = (int) 0;
     //essa variavel será utilizada para definir o modo de manipulação com BD
     
@@ -32,6 +35,8 @@ session_start();
 
         $id = $_SESSION['cliente']['idclient'];
         $nome = $_SESSION['cliente']['nome'];
+        $idEstado = $_SESSION['cliente']['idEstado'];
+        $sigla = $_SESSION['cliente']['sigla'];
         $telefone = $_SESSION['cliente']['telefone'];
         $celular = $_SESSION['cliente']['celular'];
         $email = $_SESSION['cliente']['email'];
@@ -126,7 +131,9 @@ session_start();
                     </div>
                     <div class="cadastroEntradaDeDados">
                         <select name="sltEstado" id="">
-                            <option value="">Selecione um item</option>
+                        <option value="<?=$idEstado?>">
+                            <?=$sigla?>
+                        </option>
                             <?php
                             // chama a função que vai buscar todos os estados do banco 
                                 $listarEstados = exibirEstados();
