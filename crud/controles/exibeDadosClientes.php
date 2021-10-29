@@ -1,19 +1,18 @@
-<?php
+<?php 
 /*******************************************
-    Objetivo: Listar os dados de Estados no Banco de Dados
-    Data: 27/10/2021
+    Objetivo: Buscar ou Listar os dados de Clientes, solictando ao Banco de Dados
+    Data: 23/09/2021
     Autor: Marcel
 ********************************************/
 
 //Import do arquivo para inserir no BD
-require_once(SRC.'bd/listarEstados.php');
+require_once(SRC.'bd/listarClientes.php');
 
-function exibirEstados ()
+function exibirClientes ()
 {
     //Chama a função que busca os dados no BD e recebe os registros de clientes
-    $dados = listarEstados();
+    $dados = listar();
     
     return $dados;
 }
-
 ?>

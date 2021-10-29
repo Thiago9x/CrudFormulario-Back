@@ -1,104 +1,128 @@
-<?php 
-//verifica a existencia da variavel sessão que usamos para trazer os dados pqra o editar
-session_start();
+<?php
+    //Ativa a utilização de variaveis de sessão
+    session_start();
 
+    //Declaração das variaveis para o formulário
     $nome = (string) null;
-
     $telefone = (string) null;
     $celular = (string) null;
     $rg = (string) null;
     $cpf = (string) null;
     $email = (string) null;
     $obs = (string) null;
-    $idEstado = (int) null;
-    $sigla = (string)"Selecione um item";
     $id = (int) 0;
-    //essa variavel será utilizada para definir o modo de manipulação com BD
     
+    //Variaveis para trazer os valores do Estado 
+    //para a edição 
+    $idEstado = (int) null;
+    $sigla = (string) "Selecione um Item";
+
+    //Essa variavel será utilizada para definir
+    //o modo de manipulação com o banco de dados
+    //(Salvar = será feito o insert
+    // Atualizar = será feito o update)    
     $modo = (string) "Salvar";
-    
+
+
     //import do arquivo de configuração de variaveis e constantes
     require_once('functions/config.php');
 
-    require_once(SRC."controles/exibirDadosClientes.php");
-    // import do arquivo que lista todos os estados do BD 
-    require_once(SRC."controles/listarDadosEstados.php");
+    //require_once(SRC.'bd/conexaoMysql.php');
+    //conexaoMysql();
 
-    // require_once(SRC.'bd/conexaoMysql.php');
-    // conexaoMysql();
+    require_once(SRC.'controles/exibeDadosClientes.php');
 
+    //import do arquivo que lista todos os estados do BD
+    require_once(SRC.'controles/listarDadosEstados.php');
     
-    // var_dump($_SESSION["cliente"]);
-    
+    //Verifica a existencia da variavel de sessão
+    //que usamos para trazer os dados para o editar
     if(isset($_SESSION['cliente']))
     {
-
-        $id = $_SESSION['cliente']['idclient'];
+        
+        $id = $_SESSION['cliente']['idcliente'];
         $nome = $_SESSION['cliente']['nome'];
-        $idEstado = $_SESSION['cliente']['idEstado'];
-        $sigla = $_SESSION['cliente']['sigla'];
         $telefone = $_SESSION['cliente']['telefone'];
         $celular = $_SESSION['cliente']['celular'];
         $email = $_SESSION['cliente']['email'];
-        $cpf = $_SESSION['cliente']['cpf'];
         $rg = $_SESSION['cliente']['rg'];
+        $cpf = $_SESSION['cliente']['cpf'];
         $obs = $_SESSION['cliente']['obs'];
-        $modo = (string) "Atualizar";
-
+        $idEstado = $_SESSION['cliente']['idEstado'];
+        $sigla = $_SESSION['cliente']['sigla'];
+        $modo = "Atualizar";
+        
+        //Elimina um objeto, variavel da memória
         unset($_SESSION['cliente']);
+        
     }
+        
+
+   
 
 ?>
 
 <!DOCTYPE>
 <html lang="pt-br">
-
-<head>
-    <meta charset="UTF-8">
-    <title> Cadastro </title>
-    <link rel="stylesheet" type="text/css" href="style/style.css">
-    <script src="js/jquery.js"></script>
-    <script>
-        $(document).ready(function () {
-            $('#containerModal').css('display', 'none');
-            // abre a modals 
-            $('.pesquisar').click(function () {
-                $('#containerModal').slideToggle(1000);
-                // Recebe id do cliente 
-                let idCliente = $(this).data('id');
-                // Realiza uma requisição para consumir dados de outra pagina 
-                $.ajax({
-                    type: "GET", // Tipo de requisição (GET,POST,PUT, etc)
-                    url: "visualizarDados.php", //URL da pagina que será consumido
-                    data: {
-                        id: idCliente
-                    },
-                    success: function (
-                    dados) { //Se a requisição der certo iremos receb o conteudo na vairavel dados
-                        $('#modal').html(dados); //exibi dentro da div modal
-                    }
+    <head>
+        <meta charset="UTF-8">
+        <title> Cadastro </title>
+        <link rel="stylesheet" type="text/css" href="style/style.css">
+        <script src="js/jquery.js"></script>
+        
+        <script>
+            $(document).ready(function(){
+                //Alterando uma propriedade de css ao carregar da página
+                $('#containerModal').css('display', 'none');
+                
+                //Abre a modal
+                $('.pesquisar').click(function(){
+                    $('#containerModal').slideToggle(1000);
+                    
+                    //Recebe o id do Cliente que foi adicionado pelo 
+                    //data atributo no HTML
+                    let idCliente = $(this).data('id');
+                    
+                    //Realiza uma requisição para consumir 
+                    //dados de uma outra página
+                    $.ajax({
+                        type: "GET", //Tipo de requisição (GET, POST, PUT, etc)
+                        url: "visualizarDados.php", //URL da página que será consumida
+                        data: {id:idCliente},
+                        success: function(dados){ //Se a requisição der certo, 
+                                                    //iremos receber o conteudo na variavel 
+                                                    //dados
+                            
+                            $('#modal').html(dados); //Exibe dentro da div MODAL
+                            
+                        }                        
+                    });
+                });
+                
+                //Fechar a modal
+                $('#fecharModal').click(function(){
+                   $('#containerModal').fadeOut(); 
                 });
             });
-            $('#fecharModal').click(function () {
-                $('#containerModal').fadeOut();
-            });
-        });
-    </script>
-</head>
-
-<body>
-    <div id="containerModal">
-        <span id="fecharModal">Fechar</span>
-        <div id="modal">
-
+        </script>
+        
+        
+    </head>
+    <body>
+        <div id="containerModal">
+            <span id="fecharModal"> 
+                <img src="img/trash.png" alt="Excluir" title="Excluir" class="excluir">
+            </span>
+            <div id="modal">
+            
+            </div>
         </div>
-    </div>
-    <div id="cadastro">
-        <div id="cadastroTitulo">
-            <h1> Cadastro de Contatos </h1>
-        </div>
-        <div id="cadastroInformacoes">
-            <!-- 
+        <div id="cadastro"> 
+            <div id="cadastroTitulo"> 
+                <h1> Cadastro de Contatos </h1>
+            </div>
+            <div id="cadastroInformacoes">
+                <!-- 
                     Principais elementos de formulário para HTML5
                     <input type = "tel"> indica que a caixa recebe um telefone
                     <input type = "email"> indica que a caixa recebe um email com o minimo necessário para ser um email (@)
@@ -111,145 +135,154 @@ session_start();
                     <input type = "week"> Cria um calendário que retorna o numero da semana do ano
 
                 -->
-
-            <!-- as variaveis modo e id que foram utilizadas no action form, são responsssaveis por encaminha para a pagina recebedados.php duas informações: modo que é reponsavel por definir se é par inserir ou atualizar e o id que é reponsavel por identifica um regitro que vai atualizar no BD -->
-            <form action="controles/recebeDadosClientes.php?modo=<?=$modo?>&id=<?=$id?>" name="frmCadastro"
-                method="post">
-
-                <div class="campos">
-                    <div class="cadastroInformacoesPessoais">
-                        <label> Nome: </label>
+                
+                <!-- As variaveis modo e id, foram utilizadas no action do form, 
+                    são resposnsáveis por encaminhar para a pagina 
+                    recebeDadosCleinte.php duas informações:
+                    modo - que é responsável por definir se épara inserir ou
+                            atualizar 
+                    id - que é responsável por identificar o registro a ser
+                            atualizado no BD
+                    
+                -->
+                <form action="controles/recebeDadosClientes.php?modo=<?=$modo?>&id=<?=$id?>" name="frmCadastro" method="post" >
+                   
+                    <div class="campos">
+                        <div class="cadastroInformacoesPessoais">
+                            <label> Nome: </label>
+                        </div>
+                        <div class="cadastroEntradaDeDados">
+                            <input type="text" name="txtNome" value="<?=$nome?>" placeholder="Digite seu Nome" maxlength="100">
+                        </div>
                     </div>
-                    <div class="cadastroEntradaDeDados">
-                        <input type="text" name="txtNome" value="<?=$nome?>" placeholder="Digite seu Nome"
-                            maxlength="100">
+                    <div class="campos">
+                        <div class="cadastroInformacoesPessoais">
+                            <label> Foto: </label>
+                        </div>
+                        <div class="cadastroEntradaDeDados">
+                            <input type="file" accept="image/jpeg, image/png" required>
+                        </div>
                     </div>
-                </div>
-                <div class="campos">
-                    <div class="cadastroInformacoesPessoais">
-                        <label> Estado: </label>
+                    <div class="campos">
+                        <div class="cadastroInformacoesPessoais">
+                            <label> Estado: </label>
+                        </div>
+                        <div class="cadastroEntradaDeDados">
+                            <select name="sltEstado">
+                                <option selected value="<?=$idEstado?>"><?=$sigla?></option>
+                                <?php 
+                                    //chama a função que vai buscar todos os estados no BD    
+                                    $listEstados = exibirEstados();
+                                    
+                                    //Repetição para exibir os dados do BD
+                                    while ($rsEstados = mysqli_fetch_assoc($listEstados))
+                                    {
+                                        ?>
+                                            <option value="<?=$rsEstados['idEstado']?>"> <?=$rsEstados['sigla']?> </option>
+                                        <?php
+                                    }
+                                
+                                ?>
+                            </select>
+                        </div>
                     </div>
-                    <div class="cadastroEntradaDeDados">
-                        <select name="sltEstado" id="">
-                        <option value="<?=$idEstado?>">
-                            <?=$sigla?>
-                        </option>
-                            <?php
-                            // chama a função que vai buscar todos os estados do banco 
-                                $listarEstados = exibirEstados();
-                                // repetição para exibir os dados do BD 
-                                while ($rsEstados = mysqli_fetch_assoc($listarEstados))
-                                {
-                                    ?>
-                            <option value="<?=$rsEstados['idEstado']?>"><?=$rsEstados['sigla']?></option>
-                            <?php
-                                }
-                            ?>
-                        </select>
+                    <div class="campos">
+                        <div class="cadastroInformacoesPessoais">
+                            <label> Telefone: </label>
+                        </div>
+                        <div class="cadastroEntradaDeDados">
+                            <input type="tel" name="txtTelefone" value="<?=$telefone?>">
+                        </div>
                     </div>
-                </div>
-                <div class="campos">
-                    <div class="cadastroInformacoesPessoais">
-                        <label> Telefone: </label>
+                    <div class="campos">
+                        <div class="cadastroInformacoesPessoais">
+                            <label> Celular: </label>
+                        </div>
+                        <div class="cadastroEntradaDeDados">
+                            <input type="tel" name="txtCelular" value="<?=$celular?>">
+                        </div>
                     </div>
-                    <div class="cadastroEntradaDeDados">
-                        <input type="tel" name="txtTelefone" value="<?=$telefone?>">
+                    <div class="campos">
+                        <div class="cadastroInformacoesPessoais">
+                            <label> RG: </label>
+                        </div>
+                        <div class="cadastroEntradaDeDados">
+                            <input type="text" name="txtRg" value="<?=$rg?>" maxlength="20">
+                        </div>
                     </div>
-                </div>
-                <div class="campos">
-                    <div class="cadastroInformacoesPessoais">
-                        <label> Celular: </label>
+                    <div class="campos">
+                        <div class="cadastroInformacoesPessoais">
+                            <label> CPF: </label>
+                        </div>
+                        <div class="cadastroEntradaDeDados">
+                            <input type="text" name="txtCpf" value="<?=$cpf?>" maxlength="20">
+                        </div>
                     </div>
-                    <div class="cadastroEntradaDeDados">
-                        <input type="tel" name="txtCelular" value="<?=$celular?>">
+                    <div class="campos">
+                        <div class="cadastroInformacoesPessoais">
+                            <label> Email: </label>
+                        </div>
+                        <div class="cadastroEntradaDeDados">
+                            <input type="email" name="txtEmail" value="<?=$email?>">
+                        </div>
                     </div>
-                </div>
-                <div class="campos">
-                    <div class="cadastroInformacoesPessoais">
-                        <label> RG: </label>
+                    <div class="campos">
+                        <div class="cadastroInformacoesPessoais">
+                            <label> Observações: </label>
+                        </div>
+                        <div class="cadastroEntradaDeDados">
+                            <textarea name="txtObs" cols="50" rows="7"><?=$obs?></textarea>
+                        </div>
                     </div>
-                    <div class="cadastroEntradaDeDados">
-                        <input type="text" name="txtRg" value="<?=$rg?>" maxlength="20">
-                    </div>
-                </div>
-                <div class="campos">
-                    <div class="cadastroInformacoesPessoais">
-                        <label> CPF: </label>
-                    </div>
-                    <div class="cadastroEntradaDeDados">
-                        <input type="text" name="txtCpf" value="<?=$cpf?>" maxlength="20">
-                    </div>
-                </div>
-                <div class="campos">
-                    <div class="cadastroInformacoesPessoais">
-                        <label> Email: </label>
-                    </div>
-                    <div class="cadastroEntradaDeDados">
-                        <input type="email" name="txtEmail" value="<?=$email?>">
-                    </div>
-                </div>
-                <div class="campos">
-                    <div class="cadastroInformacoesPessoais">
-                        <label> Observações: </label>
-                    </div>
-                    <div class="cadastroEntradaDeDados">
-                        <textarea name="txtObs" cols="50" rows="7"><?=$obs?></textarea>
-                    </div>
-                </div>
-                <div class="enviar">
                     <div class="enviar">
-                        <input type="submit" name="btnEnviar" value="<?=$modo?>">
+                        <div class="enviar">
+                            <input type="submit" name="btnEnviar" value="<?=$modo?>">
+                        </div>
                     </div>
-                </div>
-            </form>
+                </form>
+            </div>
         </div>
-    </div>
-    <div id="consultaDeDados">
-        <table id="tblConsulta">
-            <tr>
-                <td id="tblTitulo" colspan="5">
-                    <h1> Consulta de Dados.</h1>
-                </td>
-            </tr>
-            <tr id="tblLinhas">
-                <td class="tblColunas destaque"> Nome </td>
-                <td class="tblColunas destaque"> Celular </td>
-                <td class="tblColunas destaque"> Email </td>
-                <td class="tblColunas destaque"> Opções </td>
-            </tr>
-
-            <?php 
-
+        <div id="consultaDeDados">
+            <table id="tblConsulta" >
+                <tr>
+                    <td id="tblTitulo" colspan="5">
+                        <h1> Consulta de Dados.</h1>
+                    </td>
+                </tr>
+                <tr id="tblLinhas">
+                    <td class="tblColunas destaque"> Nome </td>
+                    <td class="tblColunas destaque"> Celular </td>
+                    <td class="tblColunas destaque"> Email </td>
+                    <td class="tblColunas destaque"> Opções </td>
+                </tr>
+                
+                <?php 
                     $dadosClientes = exibirClientes();
                     
-                    while($rsClientes = mysqli_fetch_assoc($dadosClientes))
+                    while ($rsClientes=mysqli_fetch_assoc($dadosClientes))
                     {
-                    
-
                 ?>
-            <tr id="tblLinhas">
-                <td class="tblColunas registros"><?=$rsClientes['nome']?></td>
-                <td class="tblColunas registros"><?=$rsClientes['telefone']?></td>
-                <td class="tblColunas registros"><?=$rsClientes['email']?></td>
-                <td class="tblColunas registros">
-                    <a href="controles/editarDadosClientes.php?id=<?=$rsClientes['idclient']?>"><img src="img/edit.png"
-                            alt="Editar" title="Editar" class="editar"></a>
-
-
-                    <a onclick="return confirm('Tem certeza que deseja excluir o registro?');"
-                        href="controles/excluirDadosClientes.php?id=<?=$rsClientes['idclient']?>">
-                        <img src="img/trash.png" alt="Excluir" title="Excluir" class="excluir">
-                    </a>
-
-                    <img src="img/search.png" alt="Visualizar" title="Visualizar" class="pesquisar"
-                        data-id='<?=$rsClientes['idclient']?>'>
-                </td>
-            </tr>
-            <?php 
-                    }
+                <tr id="tblLinhas">
+                    <td class="tblColunas registros"><?=$rsClientes['nome']?></td>
+                    <td class="tblColunas registros"><?=$rsClientes['celular']?></td>
+                    <td class="tblColunas registros"><?=$rsClientes['email']?></td>
+                    <td class="tblColunas registros">
+                        
+                        <a href="controles/editaDadosClientes.php?id=<?=$rsClientes['idcliente']?>">
+                            <img src="img/edit.png" alt="Editar" title="Editar" class="editar">
+                        </a>
+                        <a onclick="return confirm('Tem certeza que deseja ecluir?');" href="controles/excluiDadosClientes.php?id=<?=$rsClientes['idcliente']?>">
+                            <img src="img/trash.png" alt="Excluir" title="Excluir" class="excluir">
+                        </a>
+                        
+                            <img src="img/search.png" alt="Visualizar" title="Visualizar" class="pesquisar" data-id="<?=$rsClientes['idcliente']?>">
+       
+                    </td>
+                </tr>
+                <?php 
+                    } 
                 ?>
-        </table>
-    </div>
-</body>
-
+            </table>
+        </div>
+    </body>
 </html>
