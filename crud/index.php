@@ -112,8 +112,12 @@ session_start();
 
                 -->
 
-            <!-- as variaveis modo e id que foram utilizadas no action form, são responsssaveis por encaminha para a pagina recebedados.php duas informações: modo que é reponsavel por definir se é par inserir ou atualizar e o id que é reponsavel por identifica um regitro que vai atualizar no BD -->
-            <form action="controles/recebeDadosClientes.php?modo=<?=$modo?>&id=<?=$id?>" name="frmCadastro"
+            <!-- as variaveis modo e id que foram utilizadas no action form, são responsssaveis por encaminha para a pagina recebedados.php duas informações: modo que é reponsavel por definir se é par inserir ou atualizar e o id que é reponsavel por identifica um regitro que vai atualizar no BD
+        
+        enctype="multipart/form-data" é obrigatório ser utilizado quando for trabalhar com imagem
+        OBS:PARA TRABALHAR COM A INPUT type="file" É OBRIGATÓRIO UTILIZAR O MÉTODO POST-->
+
+            <form enctype="multipart/form-data"action="controles/recebeDadosClientes.php?modo=<?=$modo?>&id=<?=$id?>" name="frmCadastro"
                 method="post">
 
                 <div class="campos">
@@ -123,6 +127,14 @@ session_start();
                     <div class="cadastroEntradaDeDados">
                         <input type="text" name="txtNome" value="<?=$nome?>" placeholder="Digite seu Nome"
                             maxlength="100">
+                    </div>
+                </div>
+                <div class="campos">
+                    <div class="cadastroInformacoesPessoais">
+                        <label> Foto: </label>
+                    </div>
+                    <div class="cadastroEntradaDeDados">
+                        <input type="file" name="fleFoto" accept="image/jpeg, image/jgp, image/png">
                     </div>
                 </div>
                 <div class="campos">

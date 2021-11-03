@@ -15,7 +15,7 @@ create table tblcliente (
     obs text
 );
 
-select * from tblcliente;
+select * from tblestado; 
 
 
 select tblcliente.*,tblEstado.sigla from tblcliente

@@ -10,6 +10,9 @@ require_once('../functions/config.php');
 //Import do arquivo para inserir no BD
 require_once(SRC.'bd/inserirCliente.php');
 
+// Import o arquivo que faz o upload de imagens para o servidor
+require_once(SRC.'functions/upload.php');
+
 require_once(SRC.'bd/atualizarCliente.php');
 
 //Declaração de variaveis
@@ -21,6 +24,8 @@ $celular = (string) null;
 $email = (string) null;
 $obs = (string) null;
 $idEstado = (int) null;
+//variavel criada para guardar o nome da foto
+$foto=(String) null;
 
 if(isset($_GET['id']))
 $id = (int) $_GET['id'];
@@ -39,20 +44,18 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
     $obs = $_POST['txtObs'];
     $idEstado = $_POST['sltEstado'];
     $id=(int) $_GET['id'];
-    
+
+    // chama a função que faz o upload de um arquivo 
+    uploadFile($_FILES['fleFoto']);
+    // die;
+
     //Validação de campos obrigatórios
     if ($nome == null || $rg == null || $cpf == null)
-        echo("<script> 
-                alert('". ERRO_CAIXA_VAZIA ."'); 
-                window.history.back();    
-            </script>");
+        echo(ERRO_CAIXA_VAZIA);
     //Validação de qtde de caracteres
     //strlen() retorna a qtde de caracteres de uma varaivel
     elseif (strlen($nome)>100 || strlen($rg)>15 || strlen($cpf)>20)
-         echo("<script> 
-                alert('". ERRO_MAXLENGHT ."'); 
-                window.history.back();    
-            </script>");
+         echo( ERRO_MAXLENGHT);
     else
     {
         //Local para enviar os dados para o Banco de Dados
