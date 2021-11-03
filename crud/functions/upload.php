@@ -39,9 +39,9 @@
                         // hash('sha256', 'variavel')
                         // sha1('variavel')
                         // md5('variavel') 
-                        $nomeArquivoCript = md5($nomeArquivo);
+                        $nomeArquivoCript = md5($nomeArquivo.uniqid(time()));
                         echo ($nomeArquivoCript);
-                        die;
+                        die;                                  
                         
                         // die;
                 }
