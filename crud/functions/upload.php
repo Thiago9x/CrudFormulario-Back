@@ -35,7 +35,11 @@
                         // PERMITE EXTRAIR APENAS A EXTENSAO DE UM ARQUIVO SEM O NOME
                         $extensao = pathinfo($fotoFile['name'],PATHINFO_EXTENSION);
 
-                        $nomeArquivoCript = sha1($nomeArquivo);
+                        // algoritimos de criptografia no PHP 
+                        // hash('sha256', 'variavel')
+                        // sha1('variavel')
+                        // md5('variavel') 
+                        $nomeArquivoCript = md5($nomeArquivo);
                         echo ($nomeArquivoCript);
                         die;
                         
