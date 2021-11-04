@@ -199,52 +199,7 @@
                     <div class="cadastroEntradaDeDados">
                         <input type="tel" name="txtCelular" value="<?=$celular?>">
                     </div>
-                    <div class="campos">
-                        <div class="cadastroInformacoesPessoais">
-                            <label> Foto: </label>
-                        </div>
-                        <div class="cadastroEntradaDeDados">
-                            <input type="file" accept="image/jpeg, image/png" required>
-                        </div>
-                    </div>
-                    <div class="campos">
-                        <div class="cadastroInformacoesPessoais">
-                            <label> Estado: </label>
-                        </div>
-                        <div class="cadastroEntradaDeDados">
-                            <select name="sltEstado">
-                                <option selected value="<?=$idEstado?>"><?=$sigla?></option>
-                                <?php 
-                                    //chama a função que vai buscar todos os estados no BD    
-                                    $listEstados = exibirEstados();
-                                    
-                                    //Repetição para exibir os dados do BD
-                                    while ($rsEstados = mysqli_fetch_assoc($listEstados))
-                                    {
-                                        ?>
-                                            <option value="<?=$rsEstados['idEstado']?>"> <?=$rsEstados['sigla']?> </option>
-                                        <?php
-                                    }
-                                
-                                ?>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="campos">
-                        <div class="cadastroInformacoesPessoais">
-                            <label> Telefone: </label>
-                        </div>
-                        <div class="cadastroEntradaDeDados">
-                            <input type="tel" name="txtTelefone" value="<?=$telefone?>">
-                        </div>
-                    </div>
-                    <div class="campos">
-                        <div class="cadastroInformacoesPessoais">
-                            <label> Celular: </label>
-                        </div>
-                        <div class="cadastroEntradaDeDados">
-                            <input type="tel" name="txtCelular" value="<?=$celular?>">
-                        </div>
+                    < 
                     </div>
                     <div class="campos">
                         <div class="cadastroInformacoesPessoais">
@@ -289,7 +244,7 @@
         <div id="consultaDeDados">
             <table id="tblConsulta" >
                 <tr>
-                    <td id="tblTitulo" colspan="5">
+                    <td id="tblTitulo" colspan="6">
                         <h1> Consulta de Dados.</h1>
                     </td>
                 </tr>
@@ -297,6 +252,7 @@
                     <td class="tblColunas destaque"> Nome </td>
                     <td class="tblColunas destaque"> Celular </td>
                     <td class="tblColunas destaque"> Email </td>
+                    <td class="tblColunas destaque"> Imagens </td>
                     <td class="tblColunas destaque"> Opções </td>
                 </tr>
                 
@@ -310,6 +266,9 @@
                     <td class="tblColunas registros"><?=$rsClientes['nome']?></td>
                     <td class="tblColunas registros"><?=$rsClientes['celular']?></td>
                     <td class="tblColunas registros"><?=$rsClientes['email']?></td>
+                    <td class="tblColunas registros">
+                        <img class = "foto" src="<?=NOME_DIRETORIO_FILE . $rsClientes['foto']?>" alt="" >
+                    </td>
                     <td class="tblColunas registros">
                         
                         <a href="controles/editaDadosClientes.php?id=<?=$rsClientes['idcliente']?>">

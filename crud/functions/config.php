@@ -5,7 +5,7 @@
     Autor: Marcel
 *********************************************/
 //constante para indicar a pasta raiz do servidor + a estrutara de diretório até o meu projeto
-define ('SRC', $_SERVER['DOCUMENT_ROOT'].'/ds2t2021/Back-End/Aula13-Mysql/CrudFormulario-Back/crud/');
+define ('SRC', $_SERVER['DOCUMENT_ROOT'].'/ds2t20212/thiago_trentin/Aula13-Mysql/crud/');
 
 //Variaveis e constantes para conexão com o Banco de Dados MySql
 const BD_SERVER = 'localhost';

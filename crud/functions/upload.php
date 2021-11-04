@@ -14,6 +14,8 @@
         $tipoArquivo = (string) null; 
         $nomeArquivo = (string) null;
         $nomeArquivoCript = (string) null;
+        $foto = (string) null;
+        $arquivoTemp = (string) null;
         // Valida se o arquivo existe no array 
         IF($fotoFile['size'] >0 && $fotoFile['type'] != "")
         {
@@ -39,11 +41,24 @@
                         // hash('sha256', 'variavel')
                         // sha1('variavel')
                         // md5('variavel') 
+
+                        // uniquid() - gera uma sequencia numerica com base nas configurações de hardware da maquina 
+
+                        // time() pega a hora:minuto:segundo atual
                         $nomeArquivoCript = md5($nomeArquivo.uniqid(time()));
-                        echo ($nomeArquivoCript);
-                        die;                                  
+                        // monta o novo nome do arquivo com a extensao 
+                        $foto = $nomeArquivoCript.".".$extensao;
                         
-                        // die;
+                        // Recebe o nome do arquivo temporario que foi gerado quando o apache recebeu o arquivo do form 
+                        $arquivoTemp = $fotoFile['tmp_name'];
+                            
+                        // move_upload_file - move o arquivo da pasta temporaria do apache para a pasta do servidor que foi criada 
+                        if(move_uploaded_file($arquivoTemp, SRC.NOME_DIRETORIO_FILE. $foto )){
+                            return $foto;
+                        }
+                        else{
+                            echo('Erro no upload do arquivo');
+                        }
                 }
                 else
                     echo('Erro tipo de arquivo');

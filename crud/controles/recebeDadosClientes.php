@@ -52,7 +52,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
     $id=(int) $_GET['id'];
 
     // chama a função que faz o upload de um arquivo 
-    uploadFile($_FILES['fleFoto']);
+    echo($foto);
+    $foto = uploadFile($_FILES['fleFoto']);
     // die;
 
     //Validação de campos obrigatórios
@@ -76,6 +77,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
             "email"     => $email,
             "obs"       => $obs,
             "id"        => $id,
+            "foto"      =>$foto,
             "idEstado"  => $idEstado
         
         );
