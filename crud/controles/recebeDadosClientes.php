@@ -50,9 +50,20 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
     $obs = $_POST['txtObs'];
     $idEstado = $_POST['sltEstado'];
     $id=(int) $_GET['id'];
+    // esse nome esta chegando atraves do action do form da index, o motivo dessa variavel é para concluir o editar com o upload  de foto
+    $nomeFoto = $_GET['nomeFoto'];
+
+    if(strtoupper($_GET['modo']) == "ATUALIZAR"){
+        if($_FILES['fleFoto']['name']!= ""){
+            $foto = uploadFile($_FILES['fleFoto']);
+        }
+    }
+    else{
+        $foto = $nomeFoto;
+    }
 
     // chama a função que faz o upload de um arquivo 
-    echo($foto);
+    // echo($foto);
     $foto = uploadFile($_FILES['fleFoto']);
     // die;
 

@@ -10,6 +10,7 @@
     $cpf = (string) null;
     $email = (string) null;
     $obs = (string) null;
+    $foto = (string) null;
     $id = (int) 0;
     
     //Variaveis para trazer os valores do Estado 
@@ -50,6 +51,7 @@
         $obs = $_SESSION['cliente']['obs'];
         $idEstado = $_SESSION['cliente']['idEstado'];
         $sigla = $_SESSION['cliente']['sigla'];
+        $foto = $_SESSION['cliente']['foto'];
         $modo = "Atualizar";
         
         //Elimina um objeto, variavel da memória
@@ -141,7 +143,7 @@
         enctype="multipart/form-data" é obrigatório ser utilizado quando for trabalhar com imagem
         OBS:PARA TRABALHAR COM A INPUT type="file" É OBRIGATÓRIO UTILIZAR O MÉTODO POST-->
 
-            <form enctype="multipart/form-data"action="controles/recebeDadosClientes.php?modo=<?=$modo?>&id=<?=$id?>" name="frmCadastro"
+            <form enctype="multipart/form-data"action="controles/recebeDadosClientes.php?modo=<?=$modo?>&id=<?=$id?>&nomeFoto=<?=$foto?>" name="frmCadastro"
                 method="post">
 
                 <div class="campos">
@@ -159,6 +161,9 @@
                     </div>
                     <div class="cadastroEntradaDeDados">
                         <input type="file" name="fleFoto" accept="image/jpeg, image/jgp, image/png">
+                        <div id="visualizarFoto">
+                            <img src="<?=NOME_DIRETORIO_FILE .$foto?>">
+                        </div>
                     </div>
                 </div>
                 <div class="campos">
