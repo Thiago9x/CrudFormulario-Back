@@ -274,7 +274,7 @@
                         <a href="controles/editaDadosClientes.php?id=<?=$rsClientes['idcliente']?>">
                             <img src="img/edit.png" alt="Editar" title="Editar" class="editar">
                         </a>
-                        <a onclick="return confirm('Tem certeza que deseja ecluir?');" href="controles/excluiDadosClientes.php?id=<?=$rsClientes['idcliente']?>">
+                        <a onclick="return confirm('Tem certeza que deseja ecluir?');" href="controles/excluiDadosClientes.php?id=<?=$rsClientes['idcliente']?>&foto=<?=$rsClientes['foto']?>">
                             <img src="img/trash.png" alt="Excluir" title="Excluir" class="excluir">
                         </a>
                         
