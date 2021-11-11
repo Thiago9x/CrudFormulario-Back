@@ -18,7 +18,8 @@ function editar ($arrayCliente)
                 celular = '".$arrayCliente['celular']."',
                 email = '".$arrayCliente['email']."',
                 obs = '".$arrayCliente['obs']."',
-                idEstado = ".$arrayCliente['idEstado']."
+                idEstado = ".$arrayCliente['idEstado'].",
+                foto = '".$arrayCliente['foto']."'
             where idcliente = ".$arrayCliente['id'];
     
         //Chamando a função que estabelece a conexão com o BD 

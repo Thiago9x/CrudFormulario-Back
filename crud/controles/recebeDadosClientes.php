@@ -55,18 +55,22 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
 
     if(strtoupper($_GET['modo']) == "ATUALIZAR"){
         if($_FILES['fleFoto']['name']!= ""){
+            // chama a função que faz o upload de um arquivo 
             $foto = uploadFile($_FILES['fleFoto']);
+            // apaga a foto antiga 
+            unlink(SRC.NOME_DIRETORIO_FILE. $nomeFoto);
+        }
+        else{
+            $foto = $nomeFoto;
         }
     }
-    else{
-        $foto = $nomeFoto;
-    }
+    
+    else{//Caso a variavel modo seja salvar então sera obrigatorio
 
     // chama a função que faz o upload de um arquivo 
-    // echo($foto);
     $foto = uploadFile($_FILES['fleFoto']);
     // die;
-
+    }
     //Validação de campos obrigatórios
     if ($nome == null || $rg == null || $cpf == null)
         echo(ERRO_CAIXA_VAZIA);
