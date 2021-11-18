@@ -3,6 +3,8 @@
     require_once("vendor/autoload.php");
 // import do arquivo de configuração do sistema
     require_once("../functions/config.php");
+//import o arquivo que solicita das requisições de busca no BD
+    require_once("../controles/exibeDadosClientes.php");
     
     // Instancia da classe Slim\App é realizado para termos acesso aos metodos da classe 
     $app = new \Slim\App();
@@ -15,9 +17,18 @@
 
     // EndPoint GET retorna todos os dados de clientes
     $app->get('/clientes',function($request,$response,$args){
+
+//  Chama a função na pasta Controles que vai requisitar os dados no BD
+        if($listDados = exibirClientes()){
+            if($listDadosArray = criarArray($listDados)){
+                $listDadosJSON = criarJson($listDadosArray);
+            }
+        }
+
+
     return $response    ->withStatus(200)
                         ->withHeader('Content-Type','application/json/xml')
-                        ->write('{"message":"Requisição com sucesso"}');
+                        ->write($listDadosJSON);
     });
     // EndPoint POST envia um novo cliente para o BD 
     $app->post('/clientes',function($request,$response,$args){

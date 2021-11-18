@@ -10,7 +10,10 @@ require_once(SRC.'bd/conexaoMysql.php');
 //retorna todos os registros existentes no banco
 function listar ()
 {
-    $sql = "select * from tblcliente order by idcliente desc";
+    $sql = "select tblcliente.*, tblEstado.sigla 
+        from tblcliente
+        inner join tblEstado 
+        on tblEstado.idEstado = tblCliente.idEstado";
     
     //Abre a conexão com o BD
     $conexao = conexaoMysql();
