@@ -77,7 +77,7 @@ $app->post('/clientes', function($request, $response, $args) {
 
             else {
                 //import que vai encaminhar os dados para o BD
-                require_once('../controles/recebeDadosCilentesAPI.php');
+                require_once(SRC.'controles/recebeDadosClientesAPI.php');
 
                 //Envia os dados para o BD e valida se foi inserido com sucesso
                 if(inserirClienteAPI($dadosBodyJSON)) {
