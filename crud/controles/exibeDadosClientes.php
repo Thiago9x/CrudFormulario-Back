@@ -59,4 +59,11 @@ function criarJson($arrayDados){
         return false;
     }
 }
+// Função para buscar dados do banco de dados
+function buscarClientes ($id){
+    //Chama a função que busca os dados no BD e recebe os registros de clientes
+    $dados = buscar($id);
+    
+    return $dados;
+}
 ?>
