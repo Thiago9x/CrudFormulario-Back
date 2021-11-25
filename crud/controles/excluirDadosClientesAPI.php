@@ -1,6 +1,6 @@
 <?php
 /***********************************************************************************
- * Objetivo: Arquivo responsável por receber dados da API (POST ou PUT)
+ * Objetivo: Arquivo responsável por receber o id do Cliente e excluir do BD
  * Data: 25/11/2021
  * Autor:Thiago Trentin
  */
