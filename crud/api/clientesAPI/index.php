@@ -100,16 +100,80 @@ $app->post('/clientes', function($request, $response, $args) {
 );
 
 // EndPoint PUT autaliza um cliente do BD 
-$app->put('/clientes', function($request, $response, $args) {
-        return $response ->withStatus(201) ->withHeader('Content-Type', 'application/json/xml') ->write('{"message":"Atualizado com sucesso"}');
+$app->put('/clientes/{id}', function($request, $response, $args) {
+        //recebe o content type do header, para verificar se o padrão do body será json
+        $contentType=$request ->getHeaderLine('Content-Type');
+        
+        //Recebe o id que será enviado pela URL
+        $id = $args['id'];
+        //Valida se o tipo de dados é json
+        if($contentType=='application/json') {
+            //recebe o conteudo enviado no body da mensagem
+            $dadosBodyJSON=$request->getParsedBody();
+
+            //Valida se o corpo do body está vazio
+            if ($dadosBodyJSON==""|| $dadosBodyJSON==null || !isset($args['id']) || !is_numeric($args['id']) ) {
+                return $response ->withStatus(406) ->withHeader('Content-Type', 'application/json/xml') ->write('{"message":"Conteúdo enviado pelo body não contém dados"}');
+            }
+
+            else {
+                //import que vai encaminhar os dados para o BD
+                require_once(SRC.'controles/recebeDadosClientesAPI.php');
+
+                //Edita os dados para o BD e valida se foi inserido com sucesso
+                if(atualizarClienteAPI($dadosBodyJSON, $id)) {
+                    return $response ->withStatus(200) ->withHeader('Content-Type', 'application/json/xml') ->write('{"message":"Item atualizado com sucesso"}');
+                }
+
+                else {  
+                    return $response ->withStatus(400) ->withHeader('Content-Type', 'application/json/xml') ->write('{"message":"Não foi possível salvar os dados por favor conferir o body da mensagem"}');
+                
+                }
+            }
+        }
+
+        else {
+            return $response ->withStatus(406) ->withHeader('Content-Type', 'application/json/xml') ->write('{"message":Formato de dados do Header incompátivel com o JSON"}');
+        }
+
     }
 
 );
 
 // EndPoint DELETE exclui um cliente do BD 
-$app->delete('/clientes', function($request, $response, $args) {
-        return $response ->withStatus(200) ->withHeader('Content-Type', 'application/json/xml') ->write('{"message":"Item excluido com sucesso"}');
-    }
+$app->delete('/clientes/{id}', function($request, $response, $args) {
+         //recebe o content type do header, para verificar se o padrão do body será json
+         $contentType=$request ->getHeaderLine('Content-Type');
+
+         //Valida se o tipo de dados é json
+         if($contentType=='application/json') {
+             //Valida se o corpo do body está vazio
+             if  (!isset($args['id']) || !is_numeric($args['id'])) {
+                 return $response ->withStatus(406) ->withHeader('Content-Type', 'application/json/xml') ->write('{"message":"Não foi encaminhado um ID válido do registro"}');
+             }
+ 
+             else {
+                 //import que vai encaminhar os dados para o BD
+                require_once(SRC.'controles/excluirDadosClientesAPI.php');
+                
+                 $id = $args['id'];
+                 //Envia os dados para o BD e valida se foi inserido com sucesso
+                 if(excluirClienteAPI($id)) {
+                     return $response ->withStatus(200) ->withHeader('Content-Type', 'application/json/xml') ->write('{"message":"Item excluido com sucesso"}');
+                 }
+ 
+                 else {  
+                     return $response ->withStatus(400) ->withHeader('Content-Type', 'application/json/xml') ->write('{"message":"Não foi possível excluir os dados por favor conferir o body da mensagem"}');
+                 
+                 }
+             }
+         }
+ 
+         else {
+             return $response ->withStatus(406) ->withHeader('Content-Type', 'application/json/xml') ->write('{"message":Formato de dados do Header incompátivel com o JSON"}');
+         }
+ 
+     }
 
 );
 
