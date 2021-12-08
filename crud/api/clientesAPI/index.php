@@ -17,21 +17,36 @@ $app=new \Slim\App();
 // EndPoint GET retorna todos os dados de clientes
 $app->get('/clientes', function($request, $response, $args) {
 
-        //  Chama a função na pasta Controles que vai requisitar os dados no BD
-        if($listDados=exibirClientes()) {
-            if($listDadosArray=criarArray($listDados)) {
-                $listDadosJSON=criarJson($listDadosArray);
+    //valida a existencia da chegada de dados como parametros
+    //paramentro para filtrar pelo nome
+    if(isset($request->getQueryParams()['nome'])){
+    //recebendo dados pela queryString
+    $nome = (string) null;
+
+    $nome = $request->getQueryParams()['nome'];
+    if($listDados=buscarNomeClientes($nome))
+        if($listDadosArray=criarArray($listDados)) 
+            $listDadosJSON=criarJson($listDadosArray);
+    }
+        else{
+
+            //  Chama a função na pasta Controles que vai requisitar os dados no BD
+            if($listDados=exibirClientes()) {
+                if($listDadosArray=criarArray($listDados)) {
+                    $listDadosJSON=criarJson($listDadosArray);
+                }
             }
         }
 
-        if($listDadosArray) {
-            return $response ->withStatus(200) ->withHeader('Content-Type', 'application/json/xml') ->write($listDadosJSON);
-        }
+            if($listDadosArray) {
+                return $response ->withStatus(200) ->withHeader('Content-Type', 'application/json/xml') ->write($listDadosJSON);
+            }
 
-        else {
-            return $response ->withStatus(204);
-        }
+            else {
+                return $response ->withStatus(204);
+            }
 
+        
     }
 
 );

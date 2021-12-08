@@ -18,9 +18,12 @@ function excluir($idCliente)
     $conexao = conexaoMysql();
     
     if(mysqli_query($conexao, $sql))
-        return true;
-    else
-        return false;
+        if(mysqli_affected_rows($conexao))
+            return true;
+        else
+            return false;
+    else 
+    return false;
 }
 
 ?>

@@ -66,4 +66,9 @@ function buscarClientes ($id){
     
     return $dados;
 }
+//função para buscar dados do BD com filtro pelo nome (API) 
+function buscarNomeClientes($nome){
+    $dados = buscarnome($nome);
+    return $dados;
+}
 ?>
